@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "convex/react";
+﻿import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -37,13 +37,13 @@ export function PromptLibrary() {
     return (
       <div className="max-w-4xl mx-auto">
         <div className="text-center py-12">
-          <div className="text-gray-400 mb-4">
+          <div className="text-gray-500 mb-4">
             <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No prompts yet</h3>
-          <p className="text-gray-500">Create your first teaching assistant prompt to get started.</p>
+          <h3 className="text-lg font-medium text-white mb-2">No prompts yet</h3>
+          <p className="text-gray-400">Create your first teaching assistant prompt to get started.</p>
         </div>
       </div>
     );
@@ -54,26 +54,26 @@ export function PromptLibrary() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Prompts List */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold mb-4">My Prompts ({prompts.length})</h2>
+          <h2 className="text-2xl font-bold mb-4 text-white">My Prompts ({prompts.length})</h2>
           {prompts.map((prompt) => (
             <div
               key={prompt._id}
-              className={`bg-white rounded-lg border p-4 cursor-pointer transition-all ${
+              className={`bg-gray-800 rounded-lg border p-4 cursor-pointer transition-all ${
                 selectedPromptId === prompt._id
                   ? "border-blue-500 shadow-md"
-                  : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                  : "border-gray-700 hover:border-gray-600 hover:shadow-sm"
               }`}
               onClick={() => setSelectedPromptId(prompt._id)}
             >
               <div className="flex justify-between items-start mb-2">
-                <h3 className="font-semibold text-lg">{prompt.title}</h3>
+                <h3 className="font-semibold text-lg text-white">{prompt.title}</h3>
                 <div className="flex gap-2">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       copyToClipboard(prompt.generatedPrompt);
                     }}
-                    className="text-blue-600 hover:text-blue-800 p-1"
+                    className="text-blue-400 hover:text-blue-300 p-1"
                     title="Copy prompt"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -85,7 +85,7 @@ export function PromptLibrary() {
                       e.stopPropagation();
                       handleDelete(prompt._id);
                     }}
-                    className="text-red-600 hover:text-red-800 p-1"
+                    className="text-red-400 hover:text-red-300 p-1"
                     title="Delete prompt"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -94,13 +94,13 @@ export function PromptLibrary() {
                   </button>
                 </div>
               </div>
-              <div className="flex items-center gap-4 text-sm text-gray-600">
-                <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+              <div className="flex items-center gap-4 text-sm text-gray-400">
+                <span className="bg-blue-600 text-white px-2 py-1 rounded-full">
                   {prompt.subject}
                 </span>
                 <span>{new Date(prompt._creationTime).toLocaleDateString()}</span>
               </div>
-              <p className="text-gray-700 mt-2 line-clamp-2">{prompt.persona}</p>
+              <p className="text-gray-300 mt-2 line-clamp-2">{prompt.persona}</p>
             </div>
           ))}
         </div>
@@ -110,14 +110,14 @@ export function PromptLibrary() {
           {selectedPromptId ? (
             <PromptViewer promptId={selectedPromptId} />
           ) : (
-            <div className="bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 p-8 text-center">
-              <div className="text-gray-400 mb-4">
+            <div className="bg-gray-800 rounded-lg border-2 border-dashed border-gray-600 p-8 text-center">
+              <div className="text-gray-500 mb-4">
                 <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
               </div>
-              <p className="text-gray-500">Select a prompt to view details</p>
+              <p className="text-gray-400">Select a prompt to view details</p>
             </div>
           )}
         </div>

@@ -1,4 +1,4 @@
-import { useQuery } from "convex/react";
+﻿import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 import { toast } from "sonner";
@@ -12,11 +12,11 @@ export function PromptViewer({ promptId }: PromptViewerProps) {
 
   if (!prompt) {
     return (
-      <div className="bg-white rounded-lg border p-6">
+      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
-          <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
-          <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+          <div className="h-4 bg-gray-700 rounded w-3/4 mb-4"></div>
+          <div className="h-4 bg-gray-700 rounded w-1/2 mb-2"></div>
+          <div className="h-4 bg-gray-700 rounded w-5/6"></div>
         </div>
       </div>
     );
@@ -32,11 +32,11 @@ export function PromptViewer({ promptId }: PromptViewerProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg border">
+    <div className="bg-gray-800 rounded-lg border border-gray-700">
       {/* Header */}
-      <div className="p-6 border-b">
+      <div className="p-6 border-b border-gray-700">
         <div className="flex justify-between items-start mb-4">
-          <h2 className="text-xl font-bold">{prompt.title}</h2>
+          <h2 className="text-xl font-bold text-white">{prompt.title}</h2>
           <button
             onClick={() => copyToClipboard(prompt.generatedPrompt)}
             className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center gap-2"
@@ -47,8 +47,8 @@ export function PromptViewer({ promptId }: PromptViewerProps) {
             Copy Prompt
           </button>
         </div>
-        <div className="flex items-center gap-4 text-sm text-gray-600">
-          <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+        <div className="flex items-center gap-4 text-sm text-gray-400">
+          <span className="bg-blue-600 text-white px-2 py-1 rounded-full">
             {prompt.subject}
           </span>
           <span>Created {new Date(prompt._creationTime).toLocaleDateString()}</span>
@@ -60,28 +60,28 @@ export function PromptViewer({ promptId }: PromptViewerProps) {
         <div className="space-y-6">
           {/* Persona */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-2">AI Persona</h3>
-            <p className="text-gray-700 bg-gray-50 p-3 rounded-md">{prompt.persona}</p>
+            <h3 className="font-semibold text-white mb-2">AI Persona</h3>
+            <p className="text-gray-300 bg-gray-700 p-3 rounded-md">{prompt.persona}</p>
           </div>
 
           {/* Golden Rule */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-2">Golden Rule</h3>
-            <p className="text-gray-700 bg-yellow-50 p-3 rounded-md border-l-4 border-yellow-400">
+            <h3 className="font-semibold text-white mb-2">Golden Rule</h3>
+            <p className="text-gray-300 bg-yellow-900/30 p-3 rounded-md border-l-4 border-yellow-500">
               {prompt.goldenRule}
             </p>
           </div>
 
           {/* Process Steps */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-2">Teaching Process</h3>
+            <h3 className="font-semibold text-white mb-2">Teaching Process</h3>
             <ol className="space-y-2">
               {prompt.processSteps.map((step, index) => (
                 <li key={index} className="flex gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-800 rounded-full flex items-center justify-center text-sm font-medium">
+                  <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
                     {index + 1}
                   </span>
-                  <span className="text-gray-700">{step}</span>
+                  <span className="text-gray-300">{step}</span>
                 </li>
               ))}
             </ol>
@@ -90,18 +90,18 @@ export function PromptViewer({ promptId }: PromptViewerProps) {
           {/* Additional Guidelines */}
           {prompt.additionalGuidelines && (
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Additional Guidelines</h3>
-              <p className="text-gray-700 bg-gray-50 p-3 rounded-md">{prompt.additionalGuidelines}</p>
+              <h3 className="font-semibold text-white mb-2">Additional Guidelines</h3>
+              <p className="text-gray-300 bg-gray-700 p-3 rounded-md">{prompt.additionalGuidelines}</p>
             </div>
           )}
         </div>
       </div>
 
       {/* Generated Prompt Preview */}
-      <div className="border-t bg-gray-50 p-6">
-        <h3 className="font-semibold text-gray-900 mb-3">Generated Prompt</h3>
-        <div className="bg-white border rounded-md p-4 max-h-96 overflow-y-auto">
-          <pre className="whitespace-pre-wrap text-sm text-gray-800 font-mono">
+      <div className="border-t border-gray-700 bg-gray-700 p-6">
+        <h3 className="font-semibold text-white mb-3">Generated Prompt</h3>
+        <div className="bg-gray-900 border border-gray-600 rounded-md p-4 max-h-96 overflow-y-auto">
+          <pre className="whitespace-pre-wrap text-sm text-gray-200 font-mono">
             {prompt.generatedPrompt}
           </pre>
         </div>

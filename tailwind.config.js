@@ -1,14 +1,15 @@
-/** @type {import('tailwindcss').Config} */
+﻿/** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#2563eb",
-          hover: "#1d4ed8",
+          DEFAULT: "#3b82f6",
+          hover: "#2563eb",
         },
-        secondary: "#64748b",
+        secondary: "#94a3b8",
       },
       spacing: {
         section: "2rem",

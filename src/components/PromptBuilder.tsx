@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { toast } from "sonner";
@@ -118,18 +118,18 @@ export function PromptBuilder() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-sm border p-6">
-        <h2 className="text-2xl font-bold mb-6">Create Teaching Assistant Prompt</h2>
+      <div className="bg-gray-800 rounded-lg shadow-sm border border-gray-700 p-6">
+        <h2 className="text-2xl font-bold mb-6 text-white">Create Teaching Assistant Prompt</h2>
         
         {/* Template Selection */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-300 mb-2">
             Start with a template (optional)
           </label>
           <select
             value={selectedTemplate}
             onChange={(e) => handleTemplateSelect(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 text-white"
           >
             <option value="">Choose a template...</option>
             {templates.map((template) => (
@@ -144,7 +144,7 @@ export function PromptBuilder() {
           {/* Basic Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Prompt Title *
               </label>
               <input
@@ -152,12 +152,12 @@ export function PromptBuilder() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g., Python Debugging Assistant"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 text-white placeholder-gray-400"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Subject Area *
               </label>
               <input
@@ -165,7 +165,7 @@ export function PromptBuilder() {
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
                 placeholder="e.g., Python, JavaScript, Mathematics"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 text-white placeholder-gray-400"
                 required
               />
             </div>
@@ -173,7 +173,7 @@ export function PromptBuilder() {
 
           {/* Persona */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               AI Persona *
             </label>
             <textarea
@@ -181,14 +181,14 @@ export function PromptBuilder() {
               onChange={(e) => setPersona(e.target.value)}
               placeholder="Define the AI's role and personality. Example: 'You are a friendly and encouraging Python programming tutor. Your goal is to help students debug their code by guiding them to the solution without giving it away.'"
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 text-white placeholder-gray-400"
               required
             />
           </div>
 
           {/* Golden Rule */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Golden Rule *
             </label>
             <textarea
@@ -196,20 +196,20 @@ export function PromptBuilder() {
               onChange={(e) => setGoldenRule(e.target.value)}
               placeholder="The most important constraint. Example: 'Under no circumstances should you ever provide the corrected code or the direct solution. The student must write the final code themselves.'"
               rows={2}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 text-white placeholder-gray-400"
               required
             />
           </div>
 
           {/* Process Steps */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Teaching Process Steps *
             </label>
             <div className="space-y-3">
               {processSteps.map((step, index) => (
                 <div key={index} className="flex gap-2">
-                  <span className="flex-shrink-0 w-8 h-10 bg-blue-100 text-blue-800 rounded-md flex items-center justify-center text-sm font-medium">
+                  <span className="flex-shrink-0 w-8 h-10 bg-blue-600 text-white rounded-md flex items-center justify-center text-sm font-medium">
                     {index + 1}
                   </span>
                   <input
@@ -217,13 +217,13 @@ export function PromptBuilder() {
                     value={step}
                     onChange={(e) => updateProcessStep(index, e.target.value)}
                     placeholder={`Step ${index + 1}: e.g., Acknowledge their effort and validate their attempt`}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 text-white placeholder-gray-400"
                   />
                   {processSteps.length > 1 && (
                     <button
                       type="button"
                       onClick={() => removeProcessStep(index)}
-                      className="px-3 py-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md"
+                      className="px-3 py-2 text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-md"
                     >
                       Remove
                     </button>
@@ -234,7 +234,7 @@ export function PromptBuilder() {
             <button
               type="button"
               onClick={addProcessStep}
-              className="mt-3 px-4 py-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-md border border-blue-200"
+              className="mt-3 px-4 py-2 text-blue-400 hover:text-blue-300 hover:bg-blue-900/20 rounded-md border border-blue-600"
             >
               + Add Step
             </button>
@@ -242,7 +242,7 @@ export function PromptBuilder() {
 
           {/* Additional Guidelines */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Additional Guidelines (optional)
             </label>
             <textarea
@@ -250,7 +250,7 @@ export function PromptBuilder() {
               onChange={(e) => setAdditionalGuidelines(e.target.value)}
               placeholder="Any extra instructions or specific behaviors you want the AI to follow..."
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 text-white placeholder-gray-400"
             />
           </div>
 
@@ -266,7 +266,7 @@ export function PromptBuilder() {
               <button
                 type="button"
                 onClick={resetForm}
-                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                className="px-6 py-2 border border-gray-600 text-gray-300 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
               >
                 Reset Form
               </button>
