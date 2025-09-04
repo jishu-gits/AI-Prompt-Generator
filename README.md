@@ -1,29 +1,66 @@
 # Teaching Assistant Prompt Generator App
-  
-This is a project built with [Chef](https://chef.convex.dev) using [Convex](https://convex.dev) as its backend.
- You can find docs about Chef with useful information like how to deploy to production [here](https://docs.convex.dev/chef).
-  
-This project is connected to the Convex deployment named [`industrious-rooster-205`](https://dashboard.convex.dev/d/industrious-rooster-205).
-  
-## Project structure
-  
-The frontend code is in the `app` directory and is built with [Vite](https://vitejs.dev/).
-  
-The backend code is in the `convex` directory.
-  
-`npm run dev` will start the frontend and backend servers.
 
-## App authentication
+A web application for generating, managing, and exporting prompts for teaching assistants. The app provides a streamlined interface for prompt creation, editing, and organization.
 
-Chef apps use [Convex Auth](https://auth.convex.dev/) with Anonymous auth for easy sign in. You may wish to change this before deploying your app.
+## Features
 
-## Developing and deploying your app
+- Add, edit, and delete prompts
+- Categorize prompts by subject or type
+- Export prompts as text or JSON
+- Responsive and user-friendly UI
+- Persistent storage using local files or database
 
-Check out the [Convex docs](https://docs.convex.dev/) for more information on how to develop with Convex.
-* If you're new to Convex, the [Overview](https://docs.convex.dev/understanding/) is a good place to start
-* Check out the [Hosting and Deployment](https://docs.convex.dev/production/) docs for how to deploy your app
-* Read the [Best Practices](https://docs.convex.dev/understanding/best-practices/) guide for tips on how to improve you app further
+## Technologies Used
 
-## HTTP API
+- **Frontend:** React (JavaScript/TypeScript), CSS/Styled Components
+- **Backend:** Node.js, Express (if present)
+- **Database:** MongoDB or SQLite (if present)
+- **Other:** Axios (for API calls), dotenv (for environment variables)
 
-User-defined http routes are defined in the `convex/router.ts` file. We split these routes into a separate file from `convex/http.ts` to allow us to prevent the LLM from modifying the authentication routes.
+## Folder Structure
+
+- `/src` - React frontend source code
+  - `/components` - Reusable UI components
+  - `/pages` - Main application pages
+  - `/utils` - Utility functions
+  - `/assets` - Images and static files
+- `/server` - Express backend (if present)
+  - `/routes` - API route handlers
+  - `/models` - Database models
+- `/public` - Static assets (index.html, favicon, etc.)
+
+## Getting Started
+
+1. **Clone the repository:**
+   ```
+   git clone https://github.com/yourusername/teaching_assistant_prompt_generator_app.git
+   ```
+
+2. **Install dependencies:**
+   ```
+   npm install
+   ```
+
+3. **Start the development server:**
+   ```
+   npm start
+   ```
+
+   If using a backend:
+   ```
+   cd server
+   npm install
+   npm run dev
+   ```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss your ideas.
+
+## License
+
+[MIT](LICENSE)
+
+## Contact
+
+For questions or support, please contact [your-email@example.com].
