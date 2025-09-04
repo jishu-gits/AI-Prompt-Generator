@@ -1,17 +1,19 @@
-﻿"use client";
-import { useAuthActions } from "@convex-dev/auth/react";
+"use client";
+import { useAuth } from "./contexts/AuthContext";
 import { useState } from "react";
 import { toast } from "sonner";
 
 export function SignInForm() {
-  const { signIn } = useAuthActions();
+  const { signIn, signUp } = useAuth();
   const [flow, setFlow] = useState<"signIn" | "signUp">("signIn");
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    
     const formData = new FormData(e.target as HTMLFormElement);
+    const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     
     // Client-side password validation for sign-up
@@ -21,21 +23,28 @@ export function SignInForm() {
       return;
     }
     
-    formData.set("flow", flow);
-    void signIn("password", formData).catch((error) => {
+    try {
+      if (flow === "signIn") {
+        await signIn(email, password);
+        toast.success("Signed in successfully!");
+      } else {
+        await signUp(email, password);
+        toast.success("Account created successfully!");
+      }
+    } catch (error: any) {
       let toastTitle = "";
       
       // Enhanced error handling with more specific messages
-      if (error.message.includes("Invalid password")) {
-        toastTitle = "Invalid password. Please try again.";
-      } else if (error.message.includes("User not found") || error.message.includes("No account found")) {
-        toastTitle = flow === "signIn" 
-          ? "No account found with this email. Try signing up instead."
-          : "An account with this email already exists. Try signing in instead.";
-      } else if (error.message.includes("User already exists") || error.message.includes("already exists")) {
+      if (error.code === "auth/user-not-found") {
+        toastTitle = "No account found with this email. Try signing up instead.";
+      } else if (error.code === "auth/email-already-in-use") {
         toastTitle = "An account with this email already exists. Try signing in instead.";
-      } else if (error.message.includes("Password must be at least 8 characters")) {
+      } else if (error.code === "auth/weak-password") {
         toastTitle = "Password must be at least 8 characters long";
+      } else if (error.code === "auth/invalid-email") {
+        toastTitle = "Invalid email address";
+      } else if (error.code === "auth/wrong-password") {
+        toastTitle = "Invalid password. Please try again.";
       } else {
         toastTitle = flow === "signIn"
           ? "Could not sign in, did you mean to sign up?"
@@ -43,8 +52,9 @@ export function SignInForm() {
       }
       
       toast.error(toastTitle);
+    } finally {
       setSubmitting(false);
-    });
+    }
   };
 
   return (
@@ -93,14 +103,6 @@ export function SignInForm() {
           </button>
         </div>
       </form>
-      <div className="flex items-center justify-center my-3">
-        <hr className="my-4 grow border-gray-700" />
-        <span className="mx-4 text-gray-400">or</span>
-        <hr className="my-4 grow border-gray-700" />
-      </div>
-      <button className="auth-button" onClick={() => void signIn("anonymous")}>
-        Sign in anonymously
-      </button>
     </div>
   );
 }

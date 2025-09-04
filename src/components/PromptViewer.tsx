@@ -1,16 +1,32 @@
-﻿import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { Id } from "../../convex/_generated/dataModel";
+import { useState, useEffect } from "react";
+import { usePrompts, Prompt } from "../hooks/usePrompts";
 import { toast } from "sonner";
 
 interface PromptViewerProps {
-  promptId: Id<"prompts">;
+  promptId: string;
 }
 
 export function PromptViewer({ promptId }: PromptViewerProps) {
-  const prompt = useQuery(api.prompts.getPrompt, { id: promptId });
+  const { getPrompt } = usePrompts();
+  const [prompt, setPrompt] = useState<Prompt | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!prompt) {
+  useEffect(() => {
+    const loadPrompt = async () => {
+      try {
+        const promptData = await getPrompt(promptId);
+        setPrompt(promptData);
+      } catch (error) {
+        console.error("Error loading prompt:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPrompt();
+  }, [promptId, getPrompt]);
+
+  if (loading) {
     return (
       <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
         <div className="animate-pulse">
@@ -18,6 +34,14 @@ export function PromptViewer({ promptId }: PromptViewerProps) {
           <div className="h-4 bg-gray-700 rounded w-1/2 mb-2"></div>
           <div className="h-4 bg-gray-700 rounded w-5/6"></div>
         </div>
+      </div>
+    );
+  }
+
+  if (!prompt) {
+    return (
+      <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+        <p className="text-gray-400">Prompt not found or access denied</p>
       </div>
     );
   }
@@ -51,7 +75,7 @@ export function PromptViewer({ promptId }: PromptViewerProps) {
           <span className="bg-blue-600 text-white px-2 py-1 rounded-full">
             {prompt.subject}
           </span>
-          <span>Created {new Date(prompt._creationTime).toLocaleDateString()}</span>
+          <span>Created {prompt.createdAt.toLocaleDateString()}</span>
         </div>
       </div>
 

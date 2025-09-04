@@ -1,8 +1,6 @@
-﻿import { useState, useEffect } from "react";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
+import { useState, useEffect } from "react";
+import { usePrompts, useTemplates } from "../hooks/usePrompts";
 import { toast } from "sonner";
-import { Id } from "../../convex/_generated/dataModel";
 
 export function PromptBuilder() {
   const [title, setTitle] = useState("");
@@ -12,21 +10,19 @@ export function PromptBuilder() {
   const [processSteps, setProcessSteps] = useState<string[]>([""]);
   const [additionalGuidelines, setAdditionalGuidelines] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState<string>("");
-  const [editingId, setEditingId] = useState<Id<"prompts"> | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
-  const templates = useQuery(api.prompts.getTemplates) || [];
-  const createPrompt = useMutation(api.prompts.createPrompt);
-  const updatePrompt = useMutation(api.prompts.updatePrompt);
-  const seedTemplates = useMutation(api.templates.seedTemplates);
+  const { templates, loading: templatesLoading, seedTemplates } = useTemplates();
+  const { createPrompt, updatePrompt } = usePrompts();
 
   useEffect(() => {
-    if (templates.length === 0) {
+    if (templates.length === 0 && !templatesLoading) {
       seedTemplates();
     }
-  }, [templates.length, seedTemplates]);
+  }, [templates.length, templatesLoading, seedTemplates]);
 
   const handleTemplateSelect = (templateId: string) => {
-    const template = templates.find(t => t._id === templateId);
+    const template = templates.find(t => t.id === templateId);
     if (template) {
       setTitle(`${template.name} - Custom`);
       setSubject(template.subject);
@@ -69,8 +65,7 @@ export function PromptBuilder() {
 
     try {
       if (editingId) {
-        await updatePrompt({
-          id: editingId,
+        await updatePrompt(editingId, {
           title: title.trim(),
           subject: subject.trim(),
           persona: persona.trim(),
@@ -133,7 +128,7 @@ export function PromptBuilder() {
           >
             <option value="">Choose a template...</option>
             {templates.map((template) => (
-              <option key={template._id} value={template._id}>
+              <option key={template.id} value={template.id}>
                 {template.name} - {template.description}
               </option>
             ))}

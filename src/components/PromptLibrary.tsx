@@ -1,19 +1,16 @@
-﻿import { useQuery, useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api";
+import { usePrompts } from "../hooks/usePrompts";
 import { toast } from "sonner";
 import { useState } from "react";
 import { PromptViewer } from "./PromptViewer";
-import { Id } from "../../convex/_generated/dataModel";
 
 export function PromptLibrary() {
-  const prompts = useQuery(api.prompts.getUserPrompts) || [];
-  const deletePrompt = useMutation(api.prompts.deletePrompt);
-  const [selectedPromptId, setSelectedPromptId] = useState<Id<"prompts"> | null>(null);
+  const { prompts, loading, deletePrompt } = usePrompts();
+  const [selectedPromptId, setSelectedPromptId] = useState<string | null>(null);
 
-  const handleDelete = async (id: Id<"prompts">) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this prompt?")) {
       try {
-        await deletePrompt({ id });
+        await deletePrompt(id);
         toast.success("Prompt deleted successfully");
         if (selectedPromptId === id) {
           setSelectedPromptId(null);
@@ -32,6 +29,16 @@ export function PromptLibrary() {
       toast.error("Failed to copy to clipboard");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400 mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
 
   if (prompts.length === 0) {
     return (
@@ -57,13 +64,13 @@ export function PromptLibrary() {
           <h2 className="text-2xl font-bold mb-4 text-white">My Prompts ({prompts.length})</h2>
           {prompts.map((prompt) => (
             <div
-              key={prompt._id}
+              key={prompt.id}
               className={`bg-gray-800 rounded-lg border p-4 cursor-pointer transition-all ${
-                selectedPromptId === prompt._id
+                selectedPromptId === prompt.id
                   ? "border-blue-500 shadow-md"
                   : "border-gray-700 hover:border-gray-600 hover:shadow-sm"
               }`}
-              onClick={() => setSelectedPromptId(prompt._id)}
+              onClick={() => setSelectedPromptId(prompt.id)}
             >
               <div className="flex justify-between items-start mb-2">
                 <h3 className="font-semibold text-lg text-white">{prompt.title}</h3>
@@ -83,7 +90,7 @@ export function PromptLibrary() {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleDelete(prompt._id);
+                      handleDelete(prompt.id);
                     }}
                     className="text-red-400 hover:text-red-300 p-1"
                     title="Delete prompt"
@@ -98,7 +105,7 @@ export function PromptLibrary() {
                 <span className="bg-blue-600 text-white px-2 py-1 rounded-full">
                   {prompt.subject}
                 </span>
-                <span>{new Date(prompt._creationTime).toLocaleDateString()}</span>
+                <span>{prompt.createdAt.toLocaleDateString()}</span>
               </div>
               <p className="text-gray-300 mt-2 line-clamp-2">{prompt.persona}</p>
             </div>
