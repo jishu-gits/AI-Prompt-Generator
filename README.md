@@ -53,14 +53,6 @@ A web application for generating, managing, and exporting prompts for teaching a
    npm run dev
    ```
 
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss your ideas.
-
 ## License
 
 [MIT](LICENSE)
-
-## Contact
-
-For questions or support, please contact [your-email@example.com].
